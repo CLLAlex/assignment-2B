@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <form id="col-form" th:action="@{/user/userProfile/update}" th:object="${userAccount}" onsubmit="return userProfileValidate()"
+          method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <h3 th:text="#{user.title}">User Profile</h3>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label for="name" th:text="#{user.name}">Name</label>
+                    <input type="text" class="form-control" id="name" aria-describedby="name"
+                           th:attr="placeholder=#{user.name}" th:field="*{user.username}"
+                           readonly="true">
+                    <div class="invalid-feedback" th:text="#{form.missName}">
+                        Please input name.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label for="email" th:text="#{form.email}">email</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="email"
+                           th:attr="placeholder=#{form.email}" th:field="*{user.email}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{form.missEmail}">
+                        Please input email.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label for="firstPw" th:text="#{user.firstPw}">Password</label>
+                    <input type="password" class="form-control" id="firstPw" aria-describedby="firstPw"
+                           th:attr="placeholder=#{user.firstPw}" th:field="*{firstPassword}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{missPassword}">
+                        Please input password.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label for="secPw" th:text="#{user.confirmPw}">Confirm Password</label>
+                    <input type="password" class="form-control" id="secPw" aria-describedby="secPw"
+                           th:field="*{secondPassword}"
+                           th:attr="placeholder=#{user.confirmPw}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{missPassword}">
+                        Please input password.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row mt-2">
+            <button id="form-submit" class="btn btn-primary col-md-6 offset-md-3" th:text="#{form.submit}"
+                     type="submit">
+                Submit
+            </button>
+        </div>
+
+
+        <div class="modal fade" id="no-img" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="no-img-title" th:text="#{form.warning}">Warning</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" th:text="#{user.passwordWrong}">
+                        Password wrong. Please confirm your password again.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"th:text="#{form.closeBtn}">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>

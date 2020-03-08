@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="trace" name="gihs">
+<Properties>
+    <Property name="basePath">/Users/iotteam/Documents/test</Property>
+</Properties>
+<Appenders>
+    Console Appender
+    <Console name="Console" target="SYSTEM_OUT">
+        <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+    </Console>
+    File Appender
+    <RollingFile name="File" fileName="${basePath}/gihs.log" filePattern="${basePath}/gihs-%d{yyyy-MM-dd}.log">
+        <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        <Policies>
+            <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+        </Policies>
+    </RollingFile>
+</Appenders>
+
+<Loggers>
+
+    <!-- Log everything in Spring Boot -->
+    <Logger name="org.springframework.boot" level="debug" additivity="false">
+        <AppenderRef ref="Console" />
+        <AppenderRef ref="File" />
+    </Logger>
+
+    <!-- Log everything in Spring Core -->
+    <Logger name="org.springframework.core" level="debug" additivity="false">
+        <AppenderRef ref="Console" />
+        <AppenderRef ref="File" />
+    </Logger>
+
+    <Root level="error">
+        <AppenderRef ref="Console" />
+        <AppenderRef ref="File" />
+    </Root>
+
+</Loggers>
+</Configuration>

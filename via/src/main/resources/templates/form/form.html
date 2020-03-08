@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <form id="col-form" th:action="@{/form}" th:object="${collectionForm}" onsubmit="return validateForm()"
+          method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <h2 th:text="#{form.title}">Collection Form</h2>
+
+            </div>
+        </div>
+
+        <hr class="my-2">
+
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <h4 th:text="#{form.staffinfo}" class="text-reset">Staff Info</h4>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label for="name" th:text="#{form.name}">Name</label>
+                    <input type="text" class="form-control" id="name" aria-describedby="name"
+                           th:field="*{product.borrowerName}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{form.missName}">
+                        Please input name.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-3 md-3 offset-md-3">
+                <div class="form-group">
+                    <label for="email" th:text="#{form.email}">email</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="email"
+                           th:field="*{product.email}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{form.missEmail}">
+                        Please input email.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-3 md-3">
+                <label for="tel" th:text="#{form.tel}">Tel</label>
+                <input type="tel" class="form-control" id="tel" aria-describedby="tel"
+                th:field="*{product.phoneNum}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <h4 th:text="#{form.item}">Item Info</h4>
+            </div>
+        </div>
+        <div id="itemList" th:each="item, itemStat : *{items}">
+
+            <span id="item">
+                <hr class="my-1"/>
+                <input type="hidden" th:name="item-index" th:value="${itemStat.index}"/>
+                <div class="form-row" th:id="'item-' + ${itemStat.index}" th:data-num="${itemStat.index}">
+                    <h5 class="form-group col-md-1 md-1 offset-md-2 text-center"
+                         th:text="'#' + ${itemStat.index + 1}"> </h5>
+                    <div class="form-group col-md-3 md-3">
+                        <label th:for="itemName + '-' + ${itemStat.index}" th:text="#{form.itemName}">Item Name</label>
+                        <input type="text" class="form-control" th:id="itemName + '-' + ${itemStat.index}"
+                               th:aria-describedby="itemName  + '-' + ${itemStat.index}"
+                               th:field="*{items[__${itemStat.index}__].itemName}"
+                               required>
+                        <div class="invalid-feedback" th:text="#{form.missItemName}">
+                            Please input item name.
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 md-3">
+                        <label th:for="itemRemark + '-' + ${itemStat.index}" th:text="#{form.remark}">Remark</label>
+                        <input type="text" class="form-control" th:id="itemRemark  + '-' + ${itemStat.index}"
+                               th:aria-describedby="itemRemark  + '-' + ${itemStat.index}"
+                               th:field="*{items[__${itemStat.index}__].remark}">
+                    </div>
+
+
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6 md-2 offset-md-3">
+                        <label th:for="qty  + '-' + ${itemStat.index}" th:text="#{form.qty}">Quantity</label>
+                        <input type="number" class="form-control" th:id="qty  + '-' + ${itemStat.index}"
+                               th:aria-describedby="qty  + '-' + ${itemStat.index}"  min="1"
+                               th:field="*{items[__${itemStat.index}__].quantity}" required/>
+
+                        <div class="invalid-feedback" th:text="#{form.missQty}">
+                            Please input quantity.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3 md-3 offset-md-3">
+                        <label th:for="party  + '-' + ${itemStat.index}" th:text="#{form.party}">Party</label>
+                        <input class="form-control" th:id="party  + '-' + ${itemStat.index}"
+                               th:aria-describedby="party  + '-' + ${itemStat.index}"
+                               th:field="*{items[__${itemStat.index}__].party}">
+                    </div>
+                    <div class="form-group col-md-3 md-3">
+
+                        <label th:for="activity  + '-' + ${itemStat.index}" th:text="#{form.activity}">Activity</label>
+                        <input class="form-control" th:id="activity  + '-' + ${itemStat.index}"
+                               th:aria-describedby="activity  + '-' + ${itemStat.index}"
+                               th:field="*{items[__${itemStat.index}__].activity}">
+                    </div>
+
+                    <div class="form-group col-md-2 md-2 d-flex flex-column">
+                        <div class="btn-group mt-md-auto">
+                            <button type="button" name="addBtn" class="btn btn-success mt-auto" onclick="addRow()">
+                                +
+                            </button>
+                            <button type="button" name="delBtn" class="btn btn-secondary mt-auto" onclick="delRow(this)">
+                                -
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </span>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <h4 th:text="#{form.uploadPhoto}">Upload Photo</h4>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <div id="img-dropzone" class="dz-default dz-message dropzone">
+                    <div class="dz-message" data-dz-message>
+                        <span th:text="#{form.dropzone-msg}">
+                            Drop files here to upload
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-row mt-2">
+            <button id="form-submit" class="btn btn-primary col-md-6 offset-md-3" th:text="#{form.submit}"
+                     type="submit">
+                Submit
+            </button>
+        </div>
+
+        <div class="modal fade" id="img-dup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle" th:text="#{form.warning}">Warning</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" th:text="#{form.alert}">
+                        File is duplicate. Please upload again or rename the file.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"th:text="#{form.closeBtn}">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="no-img" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="no-img-title" th:text="#{form.warning}">Warning</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" th:text="#{form.uploadPhotoWarn}">
+                        Please upload photo.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"th:text="#{form.closeBtn}">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="up-to-five" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="up-to-five-title" th:text="#{form.warning}">Warning</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" th:text="#{form.fiveItemsOnly}">
+                        Up to 5 items allowed.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"th:text="#{form.closeBtn}">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+
+</html>

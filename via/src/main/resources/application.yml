@@ -1,0 +1,80 @@
+
+excel:
+    basePath: /static/excel/
+    template: /static/excel/form-template-v2.xlsx
+file:
+    basePath: /Users/iotteam/Pictures/image/form/
+    #basePath: /opt/images/form/
+    resourceHeader: /images
+hibernate:
+    search:
+        default:
+            directory_provider: filesystem
+            indexBase: /data/index/default
+
+messsages:
+    home: hello
+self:
+    address: 127.0.0.1
+    header: http
+    port: 8080
+spring:
+    application:
+        name: via
+    datasource:
+#        username: via
+#        password: via
+#        url: jdbc:mysql://localhost:3306/gihs2
+        username: root
+        password: root1234
+        url: jdbc:mysql://localhost:3306/via
+    h2:
+        console:
+            enabled: false
+    jpa:
+        database: MYSQL
+        hibernate:
+            ddl-auto: update
+            naming-strategy: 'org.hibernate.cfg.DefaultNamingStrategy'
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL8Dialect
+        show-sql: true
+    messages:
+        baseFolder: i18n
+        basename: i18n/messages
+    mvc:
+        static-path-pattern: /static/**
+    resources:
+        static-locations: classpath:/static
+        chain:
+            strategy:
+                content:
+                    enabled: true
+                    paths: /**
+                fixed:
+                    enabled: true
+                    paths: /js/
+                    version: v8
+
+    thymeleaf:
+        cache: false
+        check-template: true
+        check-template-location: true
+        enabled: true
+        encoding: UTF-8
+        mode: HTML
+        prefix: classpath:/templates/
+        servlet:
+            content-type: text/html
+        suffix: .html
+    servlet:
+        multipart:
+            max-file-size: 20MB
+            max-request-size: 40MB
+
+jmx:
+    default-domain: via
+email:
+    url: http://localhost:8080/email-service/sendEmailHTML
+resourceVersion: 2.0.0

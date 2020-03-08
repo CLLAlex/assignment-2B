@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--The header fragment of all the page-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">>
+
+<body>
+
+
+<th:block th:fragment="header">
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="navbar-brand" th:href="@{/}">
+                    <span>
+                        <img class="site-logo" th:src="@{/static/img/logo.png}" alt="memorynotfound logo"/>
+                        <label th:text="#{web_title}"></label>
+                    </span>
+                </a>
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/form-list/form-list}" th:text="#{formlist}">Form List</a>
+                    </li>
+
+                    <li class="nav-item active" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/user/userProfile}" th:text="#{userProfile}">User Profile</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+    </nav>
+</th:block>
+</body>
+</html>

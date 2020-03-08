@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/fragments/layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Form</title>
+    </head>
+    <body>
+        <div layout:fragment="content" th:remove="tag">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h3 th:text="#{updateSuccess}">Updated Form Successful</h3>
+                    <a th:href="@{/form-list/form-list}" th:text="#{updateSuccess_link}">Go back form list</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

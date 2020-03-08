@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <form id="col-form" th:action="@{/register}" th:object="${userAccount}" onsubmit="return userProfileValidate()"
+          method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <h3>Registration</h3>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="name" th:text="#{user.name}">Name</label>
+                    <input type="text" class="form-control" id="name" aria-describedby="name"
+                           th:attr="placeholder=#{user.name}" th:field="*{user.username}">
+                    <div class="invalid-feedback" th:text="#{form.missName}">
+                        Please input name.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" aria-describedby="firstName"
+                           th:attr="placeholder='First Name'" th:field="*{user.firstName}">
+                    <div class="invalid-feedback">
+                        Please input first name.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" aria-describedby="lastName"
+                           th:attr="placeholder='lastName'" th:field="*{user.lastName}">
+                    <div class="invalid-feedback" th:text="#{form.missName}">
+                        Please input last Name.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="email" th:text="email">email</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="email"
+                           th:attr="placeholder= 'email'" th:field="*{user.email}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{form.missEmail}">
+                        Please input email.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 md-2 offset-md-2">
+                <div class="form-group">
+                    <label >Role</label>
+                    <select th:field="*{role}" class="form-control" id="status" required>
+                        <option
+                                th:each="state : ${#numbers.sequence(T(com.via.entity.Role).values().length - 1, 0, -1)}"
+                                th:value="${T(com.via.entity.Role).values()[state]}"
+                                th:text="${T(com.via.entity.Role).values()[state]}"/>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select role.
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="firstPw" th:text="#{user.firstPw}">Password</label>
+                    <input type="password" class="form-control" id="firstPw" aria-describedby="firstPw"
+                           th:attr="placeholder=#{user.firstPw}" th:field="*{firstPassword}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{missPassword}">
+                        Please input password.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="secPw" th:text="#{user.confirmPw}">Confirm Password</label>
+                    <input type="password" class="form-control" id="secPw" aria-describedby="secPw"
+                           th:field="*{secondPassword}"
+                           th:attr="placeholder=#{user.confirmPw}"
+                           required>
+                    <div class="invalid-feedback" th:text="#{missPassword}">
+                        Please input password.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" class="form-control" id="company" aria-describedby="company"
+                           th:attr="placeholder= 'company'" th:field="*{user.company.name}"
+                           required>
+                    <div class="invalid-feedback">
+                        Please input company.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="address">Company Address</label>
+                    <input type="text" class="form-control" id="address" aria-describedby="address"
+                           th:attr="placeholder= 'company address'" th:field="*{user.company.address}"
+                           required>
+                    <div class="invalid-feedback">
+                        Please input company address.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="company_email">Company email</label>
+                    <input type="text" class="form-control" id="company_email" aria-describedby="company_email"
+                           th:attr="placeholder= 'company email'" th:field="*{user.company.email}"
+                           required>
+                    <div class="invalid-feedback">
+                        Please input company email.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="fex">Fex</label>
+                    <input type="number" class="form-control" id="fex" aria-describedby="fex"
+                           th:attr="placeholder= 'fex'" th:field="*{user.company.fex}"
+                           required>
+                    <div class="invalid-feedback">
+                        Please input fex.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="company_tel">Company Telephone</label>
+                    <input type="number" class="form-control" id="company_tel" aria-describedby="company_tel"
+                           th:attr="placeholder= 'company fex'" th:field="*{user.company.tel}"
+                           required>
+                    <div class="invalid-feedback">
+                        Please input telephone.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="website_url">Website Url</label>
+                    <input type="text" class="form-control" id="website_url" aria-describedby="website_url"
+                           th:attr="placeholder= 'website url'" th:field="*{user.company.websiteUrl}"
+                           required>
+                    <div class="invalid-feedback">
+                        Please input website url.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group">
+                    <label for="bussinessType">Bussiness Type</label>
+                    <input type="text" class="form-control" id="bussinessType" aria-describedby="bussinessType"
+                           th:attr="placeholder= 'bussiness type'" th:field="*{user.company.bussinessType}"
+                           required>
+                    <div class="invalid-feedback">
+                        Please input bussiness type.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-row mt-2">
+            <button id="form-submit" class="btn btn-primary col-md-6 offset-md-3" th:text="#{form.submit}"
+                     type="submit">
+                Submit
+            </button>
+        </div>
+
+        <div class="modal fade" id="no-img" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="no-img-title" th:text="#{form.warning}">Warning</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" th:text="#{user.passwordWrong}">
+                        Password wrong. Please confirm your password again.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"th:text="#{form.closeBtn}">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>

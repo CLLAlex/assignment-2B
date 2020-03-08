@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/fragments/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h3 th:text="#{form.title}">Form List</h3>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4 offset-md-1">
+            <form th:action="@{/form-list/form-list}" method="get">
+                <div class="input-group mb-3">
+
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#searchPanel-modal"
+                            th:text="#{searchBtn}">
+                        Search Panel
+                    </button>
+
+                    <!--<input type="text" class="form-control" name="text" th:placeholder="#{searchBar}" th:value="${text}"-->
+                           <!--aria-label="Recipient's username" aria-describedby="button-addon2">-->
+                    <!--<div class="input-group-append">-->
+                        <!--<button class="btn btn-outline-success" type="submit" id="button-addon2"-->
+                                <!--th:text="#{searchBtn}">Search</button>-->
+                    <!--</div>-->
+                </div>
+            </form>
+            <div th:replace="fragments/popup/searchPanel :: searchPanel"/>
+        </div>
+        <nav class="col-md-5 offset-md-1">
+            <ul class="pagination justify-content-end">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/form-list/form-list} + '?page=' + ${pagination.perivousPage} + '&id=' + ${id} + '&name=' + ${name}
+                       + '&mail=' + ${mail} + '&time=' + ${time} + '&status=' + ${status}">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item" th:each="page, pageStat : ${pagination.pageList}"
+                    th:classappend="${page == pagination.currentPage} ? active : ''">
+                    <a class="page-link"
+                       th:href="@{/form-list/form-list} + '?page=' + ${page} + '&id=' + ${id} + '&name=' + ${name}
+                       + '&mail=' + ${mail} + '&time=' + ${time} + '&status=' + ${status}"
+                       th:text="${page}" >
+                    </a>
+                </li>
+
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/form-list/form-list} + '?page=' + ${pagination.nextPage} + '&id=' + ${id} + '&name=' + ${name}
+                       + '&mail=' + ${mail} + '&time=' + ${time} + '&status=' + ${status}">
+                        Next
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <table class="table  table-hover table-responsive-md">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" th:text="#{formList.formId}">Form ID</th>
+                    <th scope="col" th:text="#{formList.staffName}">Staff Name</th>
+                    <th scope="col" th:text="#{formList.email}">Email</th>
+                    <th scope="col" th:text="#{formList.submitTime}">Submit Time</th>
+                    <th scope="col" th:text="#{formList.status}">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="form, formStat : ${formList.content}" style="cursor: pointer"
+                    th:onclick="'javascript:rowClicked(\'' + ${form.id} + '\');'">
+                    <th scope="row" th:text="${formStat.index + 1}"></th>
+                    <td th:text="${form.id}"></td>
+                    <td th:text="${form.borrowerName}"></td>
+                    <td th:text="${form.email}"></td>
+                    <td th:text="${#dates.format(form.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                    <td th:text="${form.status}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+</div>
+</body>
+
+</html>
